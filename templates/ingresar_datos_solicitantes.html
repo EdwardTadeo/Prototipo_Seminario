@@ -1,0 +1,208 @@
+{% extends 'menu.html' %}
+
+{% block content %}
+    <h1>Registro del Solicitante</h1>
+    <form method="post">
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="dni">DNI:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="dni" name="dni" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" onclick="consultarCliente()">Consultar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" class="form-control" id="telefono" name="telefono">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="direccion">Dirección:</label>
+                <input type="text" class="form-control" id="direccion" name="direccion">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="ingresos-mensuales">Ingresos Mensuales:</label>
+                <input type="number" class="form-control" id="ingresos-mensuales" name="ingresos-mensuales" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="egresos-mensuales">Egresos Mensuales:</label>
+                <input type="number" class="form-control" id="egresos-mensuales" name="egresos-mensuales" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="monto-solicitado">Monto Solicitado:</label>
+                <input type="number" class="form-control" id="monto-solicitado" name="monto-solicitado" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="tiempo-prestamo">Tiempo de Préstamo:</label>
+                <input type="number" class="form-control" id="tiempo-prestamo" name="tiempo-prestamo" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="tipo-empleo">Tipo de Empleo:</label>
+                <select class="form-control" id="tipo-empleo" name="tipo-empleo" required>
+                    <option value="">Seleccionar</option>
+                    <option value="empleado">Empleado</option>
+                    <option value="independiente">Independiente</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="tiempo-empleo">Tiempo transcurrido en el empleo:</label>
+                <input type="number" class="form-control" id="tiempo-empleo" name="tiempo-empleo" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="nivel-educativo">Nivel Educativo:</label>
+                <select class="form-control" id="nivel-educativo" name="nivel-educativo" required>
+                    <option value="">Seleccionar</option>
+                    <option value="primaria">Primaria</option>
+                    <option value="secundaria">Secundaria</option>
+                    <option value="universitario">Universitario</option>
+                    <option value="posgrado">Posgrado</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="estado-civil">Estado Civil:</label>
+                <select class="form-control" id="estado-civil" name="estado-civil" required>
+                    <option value="">Seleccionar</option>
+                    <option value="soltero">Soltero</option>
+                    <option value="casado">Casado</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="dependientes">Número de dependientes:</label>
+                <input type="number" class="form-control" id="dependientes" name="dependientes" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="edad">Edad:</label>
+                <input type="number" class="form-control" id="edad" name="edad" required>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="historial-vivienda">Historial de Vivienda:</label>
+                <select class="form-control" id="historial-vivienda" name="historial-vivienda" required>
+                    <option value="">Seleccionar</option>
+                    <option value="alquiler">Alquiler</option>
+                    <option value="propio">Propio</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="proposito-prestamo">Propósito del préstamo:</label>
+                <select class="form-control" id="proposito-prestamo" name="proposito-prestamo" required>
+                    <option value="">Seleccionar</option>
+                    <option value="negocio">Negocio</option>
+                    <option value="educacion">Educación</option>
+                    <option value="hogar">Hogar</option>
+                    <option value="auto">Auto</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="registrarPrestamo()">Registrar</button>
+    </form>
+    <script>
+        function consultarCliente() {
+        var dni = document.getElementById('dni').value;
+
+        // Realizar la consulta en la base de datos utilizando el dni
+        fetch('/consultar_cliente', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ dni: dni })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.cliente) {
+                // Si el cliente existe, completar los datos en los campos correspondientes
+                document.getElementById('nombre').value = data.cliente[0];
+                document.getElementById('apellidos').value = data.cliente[1];
+                document.getElementById('email').value = data.cliente[2];
+                document.getElementById('telefono').value = data.cliente[3];
+                document.getElementById('direccion').value = data.cliente[4];
+            } else {
+                // Si el cliente no existe, mostrar el mensaje enviado desde el servidor
+                alert(data.mensaje);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function registrarPrestamo() {
+        // Obtener los valores de los campos del formulario
+        var dni = document.getElementById('dni').value;
+        var ingresosMensuales = document.getElementById('ingresos-mensuales').value;
+        var egresosMensuales = document.getElementById('egresos-mensuales').value;
+        var montoSolicitado = document.getElementById('monto-solicitado').value;
+        var tiempoPrestamo = document.getElementById('tiempo-prestamo').value;
+        var tipoEmpleo = document.getElementById('tipo-empleo').value;
+        var tiempoEmpleo = document.getElementById('tiempo-empleo').value;
+        var nivelEducativo = document.getElementById('nivel-educativo').value;
+        var estadoCivil = document.getElementById('estado-civil').value;
+        var numDependientes = document.getElementById('dependientes').value;
+        var edad = document.getElementById('edad').value;
+        var historialVivienda = document.getElementById('historial-vivienda').value;
+        var propositoPrestamo = document.getElementById('proposito-prestamo').value;
+
+        // Crear el objeto con los datos a enviar
+        var data = {
+            dni: dni,
+            'ingresos-mensuales': ingresosMensuales,
+            'egresos-mensuales': egresosMensuales,
+            'monto-solicitado': montoSolicitado,
+            'tiempo-prestamo': tiempoPrestamo,
+            'tipo-empleo': tipoEmpleo,
+            'tiempo-empleo': tiempoEmpleo,
+            'nivel-educativo': nivelEducativo,
+            'estado-civil': estadoCivil,
+            'dependientes': numDependientes,
+            'edad': edad,
+            'historial-vivienda': historialVivienda,
+            'proposito-prestamo': propositoPrestamo
+        };
+
+        // Realizar la solicitud POST al backend (app.py)
+        fetch('/registrar_prestamo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                // Registro exitoso, realizar las acciones necesarias (redireccionar, mostrar mensaje, etc.)
+                console.log('Registro de préstamo exitoso');
+            } else {
+                // Error en el registro, mostrar mensaje de error
+                console.error('Error al registrar el préstamo');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    </script>
+{% endblock %}

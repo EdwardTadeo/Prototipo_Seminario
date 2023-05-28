@@ -1,0 +1,104 @@
+{% extends 'menu.html' %}
+
+{% block custom_css %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Seguimiento de Solicitante</h1>
+    <form method="POST" action="/seguimiento_solicitante">
+        <div class="input-group">
+            <input type="text" id="dni-input" class="form-control" placeholder="Ingrese el DNI" name="dni">
+            <button type="submit" class="btn btn-primary">Consultar</button>
+        </div>
+    </form>
+    
+    {% if data_prestamos %}
+    <div id="tabla-container">
+        <h3>Datos de préstamo</h3>
+        <table id="datos-prestamo-table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID Prestamo</th>
+                    <th>ID Cliente</th>
+                    <th>Ingresos Mensuales</th>
+                    <th>Egresos Mensuales</th>
+                    <th>Monto Solicitado</th>
+                    <th>Tiempo de Préstamo</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prestamo in data_prestamos %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ prestamo[1] }}</td>
+                    <td>{{ prestamo[2] }}</td>
+                    <td>{{ prestamo[3] }}</td>
+                    <td>{{ prestamo[4] }}</td>
+                    <td>{{ prestamo[5] }}</td>
+                    <td>{{ prestamo[17] }}</td>
+                    <td>{{ prestamo[16] }}</td>
+                    <td>
+                        {% if prestamo[16] == 'Pendiente de seguimiento' %}
+                            <button type="button" class="generar-informe-button" data-id="{{ prestamo[0] }}">Generar Informe</button>
+                        {% elif prestamo[16] == 'En proceso de evaluación' %}
+                            <button type="button" class="ver-informe-button" data-bs-toggle="modal" data-bs-target="#pdfModal" data-pdf="{{ prestamo[18] }}">Ver Informe</button>
+                        {% elif prestamo[16] == 'Finalizada' %}
+                            <button type="button" class="ver-resumen-button" data-id="{{ prestamo[0] }}">Ver Resumen</button>
+                        {% endif %}
+                    </td>                    
+                </tr>
+                <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="pdfModalLabel">Informe del préstamo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <embed id="pdfEmbed" src="" width="100%" height="600px" type="application/pdf">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div id="tabla-container">
+        <p>{{ mensaje }}</p>
+    </div>
+    {% endif %}
+</div>
+<script>
+    document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("generar-informe-button")) {
+        const seguimientoId = event.target.dataset.id;
+        // Realizar acciones correspondientes al botón "Generar Informe"
+    } else if (event.target.classList.contains("ver-informe-button")) {
+        const pdfFilename = event.target.dataset.pdf;
+        const url = "/static/pdf/" + pdfFilename;
+        
+        // Asignar la URL del PDF al elemento embed y mostrar el modal
+        const pdfEmbed = document.getElementById("pdfEmbed");
+        pdfEmbed.setAttribute("src", url);
+
+        const pdfModal = new bootstrap.Modal(document.getElementById("pdfModal"));
+        pdfModal.show();
+
+
+        // Realizar acciones correspondientes al botón "Ver Informe"
+    } else if (event.target.classList.contains("ver-resumen-button")) {
+        const seguimientoId = event.target.dataset.id;
+        // Realizar acciones correspondientes al botón "Ver Resumen"
+    }
+});
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>  
+{% endblock %}

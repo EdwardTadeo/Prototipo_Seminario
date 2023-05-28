@@ -1,0 +1,58 @@
+{% extends 'menu.html' %}
+
+{% block custom_css %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Evaluación del Solicitante</h1>
+    <form method="POST" action="/evaluar_solicitante">
+        <div class="input-group">
+            <input type="text" id="dni-input" class="form-control" placeholder="Ingrese el DNI" name="dni">
+            <button type="submit" class="btn btn-primary">Consultar</button>
+        </div>
+    </form>
+    
+    {% if data_result %}
+    <div id="prestamo-container">
+        <h3>Datos de préstamo</h3>
+        {% for prestamo in data_result %}
+            <div class="prestamo-item" style="background-color: #f8f9fa; padding: 10px; margin-bottom: 20px; border: 1px sold #dee2e6; border-radius: 5px;">
+                <p>Cliente: {{ prestamo[0] }}</p>
+                <p>ID Cliente: {{ prestamo[2] }}</p>
+                <p>ID Prestamo: {{ prestamo[1] }}</p>
+                <p>Ingresos Mensuales: {{ prestamo[3] }}</p>
+                <p>Egresos Mensuales: {{ prestamo[4] }}</p>
+                <p>Monto Solicitado: {{ prestamo[5] }}</p>
+                <p>Tiempo de Préstamo: {{ prestamo[6] }}</p>
+                <p>Calificación Ponderada en el último año: {% set calificacion_ponderada = ['Normal', 'Con problemas potenciales', 'Deficiente', 'Dudoso', 'Perdida', 'Sin calificación'] %}{{ calificacion_ponderada[randint(0,5)] }}</p>
+                <p>Deudas Impagas, castigadas, o en litigio judicial: {% set deudas_impagas = ['Si presenta deudas impagas', 'No presenta deudas impagas'] %}{{ deudas_impagas[randint(0,1)] }}</p>
+                <p>Información negativa reportada: {% set informacion_negativa = ['Presenta información registrada en SICOM', 'No presenta información registrada en SICOM'] %}{{ informacion_negativa[randint(0,1)] }}</p>
+                <p>Cuentas Corrientes Cerradas: {% set cuentas_cerradas = ['Presenta cuentas corrientes cerradas por alguna entidad', 'No presenta cuentas corrientes cerradas por ninguna entidad'] %}{{ cuentas_cerradas[randint(0,1)] }}</p>
+                <p>Tarjetas de crédito Anuladas: {% set tarjetas_anuladas = ['Presenta tarjetas cerradas por alguna entidad', 'No presenta tarjetas cerradas por alguna entidad'] %}{{ tarjetas_anuladas[randint(0,1)] }}</p>
+                <p>Tipo de Empleo: {{ prestamo[7] }}</p>
+                <p>Tiempo de Empleo: {{ prestamo[8] }}</p>
+                <p>Nivel Educativo: {{ prestamo[9] }}</p>
+                <p>Estado Civil: {{ prestamo[10] }}</p>
+                <p>Número de Dependientes: {{ prestamo[11] }}</p>
+                <p>Edad: {{ prestamo[12] }}</p>
+                <p>Historial de Vivienda: {{ prestamo[13] }}</p>
+                <p>Propósito del Préstamo: {{ prestamo[14] }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div id="mensaje-container">
+        <p>{{ mensaje }}</p>
+    </div>
+    <div>
+        <button class="iniciar-evaluacion-button">Iniciar evaluacion</button>
+    </div>
+    {% endif %}
+</div>
+<script>
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>  
+{% endblock %}

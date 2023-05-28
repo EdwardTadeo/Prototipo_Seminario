@@ -1,0 +1,228 @@
+@import url(./reset.css);
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background: rgb(143, 164, 204);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-page{
+    width: 450px;
+    background: rgb(237,206,224);
+    padding: 4rem;
+    border-radius: 20px;
+    position: relative;
+}
+
+.login-page img{
+    width: 400px ;
+}
+
+.login-page-logo,
+.login-page-header,
+.login-page-footer{
+    text-align: center;
+
+}
+
+.login-page a{
+    text-decoration: none;
+
+}
+
+.login-page a:hover{
+    text-decoration: underline;
+}
+
+.login-page-header{
+    margin-bottom: 2rem;
+}
+
+.login-page-form{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.login-page-form .form-item{
+    position: relative;
+}
+
+.login-page-form .form-item .form-item-icon{
+    position: absolute;
+    top: .82rem;
+    left: 1.4rem;
+    font-size: 1.3rem;
+    color: #747a81;
+}
+
+.login-page-form .form-item .label{
+    position: absolute;
+    left: 50px;
+    top: 14px;
+    pointer-events: none;
+    font-size: 14px;
+    color: #747a81;
+    transition: .5s;
+}
+
+.login-page-form .checkbox{
+    display: flex;
+    align-items: center;
+    gap:7px;
+}
+
+
+
+.login-page-form .form-item-other{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: calc(1rem*0.8);
+    margin-bottom: .5rem;
+}
+
+.login-page-footer{
+    margin-top: 1.5rem;
+    font-size: calc(1rem*0.8);
+}
+
+.login-page input[type="text"],
+.login-page input[type="password"]{
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, .3);
+    padding: 1rem 1.5rem;
+    padding-left: calc(1rem*3.5);
+    border-radius: 100px;
+    width: 100%;
+}
+
+.login-page input[type="text"]:valid,
+.login-page input[type="password"]:valid,
+.login-page input[type="text"]:focus,
+.login-page input[type="password"]:focus{
+    background: rgba(255, 255, 255, .7);
+}
+
+.login-page input[type="text"]:valid ~ .label,
+.login-page input[type="password"]:valid ~ .label,
+.login-page input[type="text"]:focus ~ .label,
+.login-page input[type="password"]:focus ~ .label{
+    transform: translate(10px,-10px);
+    font-size: .8em;
+    margin-left: -2rem;
+    top: -8px;
+    color: black;
+}
+
+.login-page-form button{
+    background: linear-gradient(to left,#131e42,#1a2f10);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: background .5s;
+}
+
+.login-page-form button:hover{
+    transform: scale(1.05);
+    background: linear-gradient(to left,#1a2f10,#131e42);
+    transition: 1s;
+    cursor: pointer;
+}
+
+.login-page-social{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+}
+
+.login-page-social > div{
+    opacity: .8;
+    letter-spacing: 1px;
+    font-size: calc(1rem*.8);
+}
+
+.login-page-social-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.login-page-social-btn a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, .7);
+    width: 50px;
+    border-radius: 100px;
+    height: 50px;
+    transition: all .5s;
+}
+
+.facebook-logo{
+    background:linear-gradient(to left,#0653e4,#1e7be6);
+}
+.instagram-logo{
+    background:linear-gradient(to left,#833ab4,#fd1d1d9e,#fcb045);
+}
+.twitter-logo{
+    background:linear-gradient(to left,#00aae4,#51d1f6);
+}
+
+.login-page-social-btn a:hover{
+    transform: scale(1.1);
+}
+
+.flash-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+}
+  
+.flash-message {
+    padding: 20px;
+    background-color: #95ebdc;
+    border: 0px solid #000;
+    color: #000;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+    box-shadow:
+       inset 0 -3em 3em rgba(0,0,0,0.1),
+             0 0  0 2px rgb(255,255,255),
+             0.3em 0.3em 1em rgba(0,0,0,0.3);
+}
+  
+.close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+    opacity: 0.5;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
